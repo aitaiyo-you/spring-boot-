@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.StudentDao">
+    <select id="login" parameterType="com.example.entity.Student" resultType="com.example.entity.Student">
+        SELECT student.*, profession.`pname`, college.`name` FROM student, profession, college
+        WHERE student.`sno` = #{sno} AND student.`pass` = #{pass} AND student.`pid` = profession.`pid` AND profession.`college` = college.`id`
+    </select>
+
+    <select id="queryAll" parameterType="com.example.entity.Student" resultType="com.example.entity.Student">
+        SELECT student.*, profession.`pname`, college.`name` FROM student, profession, college
+        WHERE student.`pid` = profession.`pid` AND profession.`college` = college.`id`
+    </select>
+
+    <select id="queryBySno" parameterType="com.example.entity.Student" resultType="com.example.entity.Student">
+        SELECT student.*, profession.`pname`, college.`name` FROM student, profession, college
+        WHERE student.`pid` = profession.`pid` AND profession.`college` = college.`id` AND student.`sno` = #{sno}
+    </select>
+
+    <select id="queryById" parameterType="com.example.entity.Student" resultType="com.example.entity.Student">
+        SELECT student.*, profession.`pname`, college.`name` FROM student, profession, college
+        WHERE student.`pid` = profession.`pid` AND profession.`college` = college.`id` AND student.`sid` = #{sid}
+    </select>
+
+    <update id="update" parameterType="com.example.entity.Student">
+        update student set phone = #{phone}, address = #{address}, sex = #{sex}, birthday = #{birthday}
+        where sno = #{sno}
+    </update>
+
+    <update id="updatePass" parameterType="com.example.entity.Student">
+        update student set pass = #{pass} where sno = #{sno} AND pass = #{oldPass}
+    </update>
+
+    <delete id="deleteBySno" parameterType="String">
+        DELETE FROM student WHERE sno=#{sno}
+    </delete>
+
+    <update id="updateByTeacher" parameterType="com.example.entity.Student">
+        UPDATE student set sname=#{sname}, pid=#{pid}, sno=#{sno}
+        WHERE sid=#{sid}
+    </update>
+
+    <insert id="addStudent" parameterType="com.example.entity.Student">
+        INSERT INTO student (sname, sno, pid) values (#{sname}, #{sno}, #{pid})
+    </insert>
+
+    <delete id="deleteAll" parameterType="list">
+        DELETE FROM student where sid in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            ${id}
+        </foreach>
+    </delete>
+</mapper>

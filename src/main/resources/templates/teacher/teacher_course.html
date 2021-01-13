@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>教师服务中心</title>
+
+    <link href="/libs/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/libs/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/libs/css/animate.css" rel="stylesheet">
+    <link href="/libs/css/style.css?v=4.1.0" rel="stylesheet">
+    <script type="text/javascript" src="/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/js/teacher/teacher_course.js"></script>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<!--右侧部分开始-->
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div style="padding: 20px; width: 100%; background: silver; text-align: center;">
+            <h3>未安排课程列表</h3>
+            <div style="padding: 10px; text-align: center;">
+                <input type="text" id="search" onkeyup="search()" placeholder="搜索...">
+            </div>
+            <table style="text-align: center; width: 50%;" border="1px" align="center" valign="middle" id="teacher_college_table">
+                <thead>
+                <tr style="text-align: center; height: 30px;">
+                    <th style="text-align: center; display: none;">课程编号</th>
+                    <th style="text-align: center;">课程名</th>
+                    <th style="text-align: center;">学分</th>
+                    <th style="text-align: center;">类型</th>
+                    <th style="text-align: center;">学时</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="courseItem" th:each="course1,s:${course1}" style="text-align: center; height: 30px;">
+                    <th class="cid" style="text-align: center; display: none;" th:text="${course1.cid}">1</th>
+                    <th class="cname" style="text-align: center;" th:text="${course1.cname}">1</th>
+                    <th class="credit" style="text-align: center;" th:text="${course1.credit}">1</th>
+                    <th class="type" style="text-align: center;" th:text="${course1.type}">1</th>
+                    <th class="period" style="text-align: center;" th:text="${course1.period}">1</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 100%; height: 30px; float:left;"></div>
+        <div style="padding: 20px; background: silver; width: 100%; float: left; text-align: center;">
+            <h3>安排授课时间</h3>
+            <p>
+                <label style="width: 100px;">课程名：</label>
+                <input type="hidden" id="TbId">
+                <input id="TbName" type="text" style="width: 10%" readonly/>
+            </p>
+            <p>
+                <label style="width: 100px;">授课时间：</label>
+                <select id="week_1" style="width: 5%;">
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                    <option value="周六">周六</option>
+                    <option value="周日">周日</option>
+                </select>
+                <select id="class_1" style="width: 10%;">
+                    <option value="8:00-9:50">8:00-9:50</option>
+                    <option value="10:10-12:00">10:10-12:00</option>
+                    <option value="14:00-15:50">14:00-15:50</option>
+                    <option value="16:00-17:50">16:00-17:50</option>
+                </select>
+            </p>
+            <p>
+                <label style="width: 100px;">&nbsp;</label>
+                <select id="week_2" style="width: 5%;">
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                    <option value="周六">周六</option>
+                    <option value="周日">周日</option>
+                </select>
+                <select id="class_2" style="width: 10%;">
+                    <option value="8:00-9:50">8:00-9:50</option>
+                    <option value="10:10-12:00">10:10-12:00</option>
+                    <option value="14:00-15:50">14:00-15:50</option>
+                    <option value="16:00-17:50">16:00-17:50</option>
+                </select>
+            </p>
+            <p>
+                <button id="course_button">安排课程</button>
+            </p>
+        </div>
+        <div style="width: 100%; height: 30px; float:left;"></div>
+    </nav>
+</div>
+<div class="row J_mainContent" id="content-main">
+    <iframe id="J_iframe" width="100%" height="100%" src="" frameborder="0" data-id="" seamless></iframe>
+</div>
+<!--右侧部分结束-->
+
+<!-- 全局js -->
+<script src="/libs/js/jquery.min.js?v=2.1.4"></script>
+<script src="/libs/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/libs/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/libs/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/libs/js/plugins/layer/layer.min.js"></script>
+
+<!-- 自定义js -->
+<script src="/libs/js/hAdmin.js?v=4.1.0"></script>
+<script type="text/javascript" src="/libs/js/index.js"></script>
+
+<!-- 第三方插件 -->
+<script src="/libs/js/plugins/pace/pace.min.js"></script>
+
+</body>
+
+</html>

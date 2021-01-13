@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>教师服务中心</title>
+
+    <link href="/libs/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/libs/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/libs/css/animate.css" rel="stylesheet">
+    <link href="/libs/css/style.css?v=4.1.0" rel="stylesheet">
+    <script type="text/javascript" src="/js/city.js"></script>
+    <script type="text/javascript" src="/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/js/teacher/main.js"></script>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div style="width: 100%; padding: 20px; background: silver">
+            <h3>个人信息</h3>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'教师编号：' + ${teacher1.getTno()}">教师编号：</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'教师姓名：' + ${teacher1.getTname()}">姓名</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'性别：' + ${teacher1.getSex()}">性别：男</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'出生日期：' + ${teacher1.getBirthday()==null?'还未填写生日':teacher1.getBirthday()}">出生日期：1994年10月1日</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'联系方式：' + ${teacher1.getPhone()==null?'还未填写联系方式':teacher1.getPhone()}">联系方式：1380000000</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'学院：' + ${teacher1.getName()}">学院：地球科学与信息学院</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'职称：' + ${teacher1.getPosition()}">班级：地勘1701</span>
+            <span style="width: 30%; padding-left: 30px; padding-top: 10px;" th:text="'家庭地址：' + ${teacher1.getAddress()==null?'还未填写家庭地址':teacher1.getAddress()}">家庭地址</span>
+        </div>
+        <div style="height: 30px; background: white;"></div>
+        <div style="width: 40%; padding: 20px; background: silver; float: left;">
+            <h3>修改个人信息</h3>
+            <p><label style="width: 20%">教师编号：</label><label th:text="${teacher1.getTno()}">1</label></p>
+            <p><label style="width: 20%">学院：</label><label th:text="${teacher1.getName()}">2</label></p>
+            <p><label style="width: 20%">职称：</label><label th:text="${teacher1.getPosition()}">3</label></p>
+            <p><label style="width: 20%;">联系方式：</label><input type="text" id="phone" th:value="${teacher1.getPhone()}"></p>
+            <p><label style="width: 20%;">出生日期：</label><input type="date" id="birthday" th:value="${teacher1.getBirthday()}"></p>
+            <p><label style="width: 20%;">性别：</label><select id="sex">
+                <option value="none" selected disabled hidden>请选择性别</option>
+                <option value="男" th:selected="${teacher1.getSex()=='男'}">男</option>
+                <option value="女" th:selected="${teacher1.getSex()=='女'}">女</option>
+            </select></p>
+            <p><label style="width: 20%;">家庭地址：</label></p>
+            <p>
+                <label style="width: 20%;">请选择省份：</label>
+                <select id="province" onchange="getCity()">
+                    <option value="none" selected disabled hidden>请选择省份</option>
+                    <!-- 利用js把省份添加到下拉列表里-->
+                    <script type="text/javascript">
+                        for (var i = 0; i < provinceArr.length; i++)
+                        {
+                            document.write("<option value='" + i + "'>" + provinceArr[i] + "</option>");
+                        }
+                    </script>
+                </select>
+            </p>
+            <p>
+                <label style="width: 20%;">请选择城市：</label>
+                <select id="city">
+                    <option value="none" selected disabled hidden>请选择城市</option>
+                    <option value="0">请先选择省份</option>
+                    <script>
+                        //当省份的选择发生变化时调用 该方法   将市县加载到下拉选择框
+                        function getCity()
+                        {
+                            //1.获取省份选择框的对象
+                            var provincesobj = document.getElementById("province");
+                            //2.获取市县选择框的对象
+                            var cityobj = document.getElementById("city");
+                            cityobj.options.remove(1)
+                            //3.获取被选择的省份的索引
+                            var index = provincesobj.selectedIndex;
+                            //alert(provincesobj[index].value+","+provincesobj[index].text);
+                            // 4.通过省份的索引获取它的value值，value值也是它在数组的索引值
+                            var value=provincesobj[index].value;
+                            //5.获取对应省份的市县数组
+                            var cityName=cityArr[value];
+                            //6.将下拉框清楚索引为0之后的，只保留第一个
+                            cityobj.length=1;
+                            //通过循环遍历市县元素给下拉框赋值
+                            for(var i = 1;i < cityArr[value].length;i++)
+                            {
+                                cityobj.options[cityobj.options.length]=new Option(cityName[i],cityName[i]);
+                            }
+                        }
+                    </script>
+                </select>
+            </p>
+            <p style="float: right;">
+                <button id="update">修改个人信息</button>
+            </p>
+        </div>
+        <div style="width: 40%; padding: 20px; background: silver; float: right;">
+            <h3>修改密码</h3>
+            <p style="width: 100%;">
+                <label style="width: 20%">  旧 密 码：</label>
+                <input type="password" id="oldPwd">
+            </p>
+            <p style="width: 100%;">
+                <label style="width: 20%">  新 密 码：</label>
+                <input type="password" id="newPwd">
+            </p>
+            <p style="width: 100%;">
+                <label style="width: 20%">确认密码：</label>
+                <input type="password" id="rePwd">
+            </p>
+            <p style="float: right;">
+                <button id="updatePass">修改密码</button>
+            </p>
+        </div>
+        <div style="width: 100%; height: 30px; float:left;"></div>
+    </nav>
+</div>
+<div class="row J_mainContent" id="content-main">
+    <iframe id="J_iframe" width="100%" height="100%" src="" frameborder="0" data-id="" seamless></iframe>
+</div>
+<!--右侧部分结束-->
+
+<!-- 全局js -->
+<script src="/libs/js/jquery.min.js?v=2.1.4"></script>
+<script src="/libs/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/libs/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/libs/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/libs/js/plugins/layer/layer.min.js"></script>
+
+<!-- 自定义js -->
+<script src="/libs/js/hAdmin.js?v=4.1.0"></script>
+<script type="text/javascript" src="/libs/js/index.js"></script>
+
+<!-- 第三方插件 -->
+<script src="/libs/js/plugins/pace/pace.min.js"></script>
+
+</body>
+
+</html>

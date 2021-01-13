@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ScoreDao">
+    <select id="queryToTeacher" parameterType="String" resultType="com.example.entity.Score">
+        SELECT score.*, teacher.`tname`, course.`cname`, student.`sname` FROM score, teacher, course, student, teacher_course
+        WHERE teacher.`tid`=teacher_course.`tid` AND course.`cid`=teacher_course.`cid` AND score.`cid`=course.`cid`
+        AND score.`sid`=student.`sid` AND teacher.`tno`=#{tno}
+    </select>
+    <select id="queryToStudent" parameterType="String" resultType="com.example.entity.Score">
+        SELECT score.*, teacher.`tname`, course.`cname`, student.`sname` FROM score, teacher, course, student, teacher_course
+        WHERE teacher.`tid`=teacher_course.`tid` AND course.`cid`=teacher_course.`cid` AND score.`cid`=course.`cid`
+        AND score.`sid`=student.`sid` AND student.`sno`=#{sno}
+    </select>
+    <select id="queryByCourse" parameterType="int" resultType="com.example.entity.Score">
+        SELECT score.*, teacher.`tname`, course.`cname`, student.`sname` FROM score, teacher, course, student, teacher_course
+        WHERE teacher.`tid`=teacher_course.`tid` AND course.`cid`=teacher_course.`cid` AND score.`cid`=course.`cid`
+        AND score.`sid`=student.`sid` AND course.`cid`=#{cid}
+    </select>
+    <update id="updateScore" parameterType="com.example.entity.Score">
+        UPDATE score set usual=#{usual}, finall=#{finall}
+        WHERE sid=#{sid} AND cid=#{cid}
+    </update>
+    <insert id="chooseClass" parameterType="com.example.entity.Score">
+        insert score (sid, cid) values (#{sid}, #{cid})
+    </insert>
+    <delete id="exitClass" parameterType="com.example.entity.Score">
+        delete FROM score WHERE sid=#{sid} AND cid=#{cid}
+    </delete>
+</mapper>

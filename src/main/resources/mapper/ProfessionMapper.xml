@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ProfessionDao">
+    <select id="queryAll" parameterType="String" resultType="com.example.entity.Profession">
+        SELECT profession.*, college.`name` FROM profession, college
+        WHERE profession.`college`=college.`id` AND college.`name`=#{college}
+    </select>
+    <insert id="addProfession" parameterType="com.example.entity.Profession">
+        INSERT INTO profession (pname, college) values (#{pname}, #{college})
+    </insert>
+    <update id="updateProfession" parameterType="com.example.entity.Profession">
+        UPDATE profession set pname=#{pname}
+        WHERE pid=#{pid}
+    </update>
+    <delete id="deleteProfession" parameterType="int">
+        DELETE FROM profession WHERE pid=#{pid}
+    </delete>
+    <delete id="deleteAll" parameterType="list">
+        DELETE FROM profession where pid in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            ${id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>教师服务中心</title>
+
+    <link href="/libs/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/libs/css/animate.css" rel="stylesheet">
+    <link href="/libs/css/style.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap-table.css">
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<!--右侧部分开始-->
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div style="width: 100%; float: left; background: silver; padding: 20px; text-align: center;">
+            <div th:each="courses,c:${courses}" style="width: 30%; float:left; text-align: center;">
+                <p style="text-align: center">
+                    <label style="text-align: right; width: 100px;">课程名：</label>
+                    <label style="width: 30%; text-align: left;" th:id="'cname' + ${c.index}" th:text="${courses.cname}">1</label>
+                    <label style="display: none;" class="cid" th:id="'cid' + ${c.index}" th:text="${courses.cid}">1</label>
+                    <label style="display: none;" th:text="${c.index}">1</label>
+                </p>
+                <p style="text-align: center;">
+                    <label style="text-align: right; width: 100px;">学生：</label>
+                    <select style="width: 30%; text-align: left;" class="sid" th:id="'sid' + ${c.index}">
+                        <option value="none" selected disabled hidden>请选择学生</option>
+                        <option th:each="scores,s:${scores}" th:if="${courses.cid==scores.cid}" th:value="${scores.sid}" th:text="${scores.sname}">1</option>
+                    </select>
+                </p>
+                <p style="text-align: center">
+                    <label style="text-align: right; width: 100px;">平时成绩：</label>
+                    <input type="text" style="width: 30%; text-align: left;" class="usual" th:id="'usual' + ${c.index}">
+                </p>
+                <p style="text-align: center">
+                    <label style="text-align: right; width: 100px;">期末成绩：</label>
+                    <input type="text" style="width: 30%; text-align: left;" class="finall" th:id="'finanl' + ${c.index}">
+                </p>
+                <p style="text-align: center">
+                    <button class="btn-group updateScoreButton" th:id="'finanl' + ${c.index}">修改/添加成绩</button>
+                </p>
+            </div>
+        </div>
+        <div style="width: 100%; height: 30px; float:left;"></div>
+        <div style="width: 100%; float:left; text-align: center; background: silver; padding: 20px;">
+            <h3 th:text="${teacher1.getTname()} + '所授课程成绩总览'">未安排课程列表</h3>
+            <div style="padding: 10px; text-align: center;">
+                <input type="text" id="search" onkeyup="search()" placeholder="搜索...">
+            </div>
+            <table id="score_table" style="text-align: center; width: 50%;" border="1px" align="center" valign="middle">
+                <thead>
+                <tr style="text-align: center; height: 30px;">
+                    <th style="text-align: center;">课程名</th>
+                    <th style="text-align: center;">学生名</th>
+                    <th style="text-align: center;">平时成绩</th>
+                    <th style="text-align: center;">期末成绩</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="scoreItem" th:each="scores,x:${scores}" style="text-align: center; height: 30px;">
+                    <th class="cname" style="text-align: center;" th:text="${scores.cname}">1</th>
+                    <th class="sname" style="text-align: center;" th:text="${scores.sname}">1</th>
+                    <th class="usual" style="text-align: center;" th:text="${scores.usual}==null?'还未填写平时成绩':${scores.usual}">1</th>
+                    <th class="final" style="text-align: center;" th:text="${scores.finall}==null?'还未填写期末成绩':${scores.finall}">1</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 100%; height: 30px; float:left;"></div>
+    </nav>
+</div>
+<div class="row J_mainContent" id="content-main">
+    <iframe id="J_iframe" width="100%" height="100%" src="" frameborder="0" data-id="" seamless></iframe>
+</div>
+<!--右侧部分结束-->
+
+<!-- 全局js -->
+<script src="/libs/js/jquery.min.js?v=2.1.4"></script>
+<script src="/libs/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/libs/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/libs/js/plugins/layer/layer.min.js"></script>
+<script src="/js/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="/js/sweetalert.min.js"></script>
+
+<!-- 自定义js -->
+<script src="/libs/js/hAdmin.js?v=4.1.0"></script>
+<script src="/js/teacher/score.js"></script>
+
+<!-- 第三方插件 -->
+<script src="/libs/js/plugins/pace/pace.min.js"></script>
+
+</body>
+
+</html>
